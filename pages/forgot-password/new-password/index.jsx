@@ -1,28 +1,27 @@
 import React, { useEffect, useState } from "react";
 // import Header from "../../components/Header";
-import validate from "../../tools/validate";
-import CTAButton from "../../components/CTAButton";
-import FormInput from "../../components/FormInput";
+import validate from "../../../tools/validate";
+import CTAButton from "../../../components/CTAButton";
+import FormInput from "../../../components/FormInput";
 import { Form, notification } from 'antd';
-import Loading from "../../components/Loading";
+import Loading from "../../../components/Loading";
 // import Message from "../../components/Message/Message";
 import {connect} from 'react-redux';
-import {QUEUE_MESSAGE} from '../../redux/types';
+import {QUEUE_MESSAGE, DELETE_MESSAGE} from '../../../redux/types';
 import { useRouter } from 'next/router';
-import styles from './styles.module.css';
+import styles from '../styles.module.css';
 import { Auth } from '@aws-amplify/auth';
 
-const Register = (props) => {
+const newPassword = (props) => {
 
   const router = useRouter();
     
-  if (props.user?.userId) router.push('/appointments');
+  if (props.user?.id) router.push('/appointments');
 
   const [user, setUser] = useState({
     email: "",
+    code: "",
     password: "",
-    name: "",
-    lastname: "",
     passwordValidation: ""
   });
   const [errors, setErrors] = useState({});
@@ -34,46 +33,46 @@ const Register = (props) => {
   };
 
   const submit = async () => {
+    console.log('aqui');
     const errs = validate(user, "register");
     setErrors(errs);
 
     if (Object.keys(errs).length > 0) return;
 
     setLoading(true);
-    Auth.signUp({
-      username: user.email,
-      password: user.password,
-      attributes: {
-          email: user.email,
-          given_name: user.name,
-          family_name: user.lastname
-      }
-    })
+    Auth.forgotPasswordSubmit(user.email, user.code, user.password)
     .then(handleSuccess)
     .catch(handleFail);
   };
   
-  const handleSuccess = () => {
+  const handleSuccess = (response) => {
     props.dispatch({type:QUEUE_MESSAGE, payload:{
       type:'success',
-      message: 'Verifique su email',
-      duration:0,
-      description:
-        'Le hemos enviado un correo con un enlace de verificación. Una vez verificado su email, vuelva a esta página e inicie sesión con su contraseña.',
+      message: 'Contraseña restablecida',
+      duration:6,
+      description: 'Ya puede iniciar sesión con sus credenciales'
     }});
     router.push("/");
   }
 
   const handleFail = (error) => {
     setLoading(false);
-    if (error.message === 'An account with the given email already exists.')
-    error.message = 'Ya existe una cuenta con el email proporcionado.';
+    if (error.message === 'Invalid verification code provided, please try again.')
+        error.message = 'Código de verificación inválido.';
     notification.error({
       message: 'Ha ocurrido un error',
       duration:6,
       description: error.message
     });
   }
+
+  useEffect(()=>{
+    if (props.user.email) setUser({ ...user, email:props.user.email });
+    if (props.queuedmessage.type) {
+      notification[props.queuedmessage.type](props.queuedmessage);
+      props.dispatch({type:DELETE_MESSAGE});
+    }
+  },[]);
 
   useEffect(() => {
     const listener = event => {
@@ -93,27 +92,15 @@ const Register = (props) => {
       <Loading visible={loading}></Loading>
       <div className={styles.registerContainer}>
         <div className={styles.registerForm}>
-            <h2>Regístrate gratis en Psimplify.</h2>
-            <p>Crea tu cuenta ahora y empieza a disfrutar de la mejor herramienta para terapeutas.</p>
-
+            <h2>Cambia tu contraseña.</h2>
             <div className={styles.inputContainer}>
-                <Form.Item validateStatus={errors.name?.status} help={errors.name?.help}>
-                    <FormInput label="Nombre" name="name" onChange={updateUser} />
-                </Form.Item>
-            </div>
-            <div className={styles.inputContainer}>
-                <Form.Item validateStatus={errors.lastname?.status} help={errors.lastname?.help}>
-                    <FormInput label="Apellidos" name="lastname" onChange={updateUser} />
-                </Form.Item>
-            </div>
-            <div className={styles.inputContainer}>
-                <Form.Item validateStatus={errors.email?.status} help={errors.email?.help}>
-                    <FormInput label="Correo Electrónico" name="email" onChange={updateUser}/>
+                <Form.Item validateStatus={errors.code?.status} help={errors.code?.help}>
+                    <FormInput label="Código de verificación" name="code" onChange={updateUser}/>
                 </Form.Item>
             </div>
             <div className={styles.inputContainer}>
                 <Form.Item validateStatus={errors.password?.status} help={errors.password?.help}>
-                    <FormInput type="Password" label="Contraseña" name="password" onChange={updateUser} />
+                    <FormInput type="Password" label="Nueva contraseña" name="password" onChange={updateUser} />
                 </Form.Item>
             </div>
             <div className={styles.inputContainer}>
@@ -122,7 +109,7 @@ const Register = (props) => {
                 </Form.Item>
             </div>
             <div className={styles.buttonContainer}>
-                <CTAButton text="Enviar" onClick={() => submit()}/>
+                <CTAButton text="Restablecer contraseña" onClick={() => submit()}/>
             </div>
         </div>
       </div>
@@ -130,4 +117,4 @@ const Register = (props) => {
   );
 };
 
-export default connect((state)=>({user: state.user}))(Register);
+export default connect((state)=>({user: state.user,queuedmessage:state.message}))(newPassword);

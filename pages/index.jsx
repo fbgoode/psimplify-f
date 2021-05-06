@@ -123,7 +123,7 @@ const Login = (props) => {
                 </div>
                 <div className={styles.buttonContainer}>
                     <CTAButton goto="login" text="Acceder" styling="CTA" onClick={()=>submit()}/>
-                    <div className={styles.forgotPassword}>¿Has olvidado tu contraseña?</div>
+                    <div className={styles.forgotPassword} onClick={()=>{router.push('/forgot-password')}}>¿Has olvidado tu contraseña?</div>
                 </div>
             </div>
             <div className={styles.separator}>
