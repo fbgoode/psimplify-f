@@ -1,0 +1,51 @@
+.registerContainer{
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+    
+.registerContainer h2 {
+    font-weight: normal;
+}
+
+.registerContainer p {
+    color: #666;
+}
+
+.buttonContainer {
+    display:flex;
+    justify-content: flex-end;
+}
+
+.registerForm {
+    text-align: left;
+    max-width: 100%;
+    width:25em;
+    box-sizing: border-box;
+    padding:1em;
+}
+
+.inputContainer {
+    width:100%;
+    display:flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 1em;
+}
+
+.inputContainer > div {
+    width:100%;
+}
+
+.inputContainer.twocols > div {
+    width:48%;
+}
+
+@media (max-width:575px) {
+    .inputContainer.twocols > div {
+        width:100%;
+    }
+}
