@@ -1,5 +1,7 @@
 import { Auth } from '@aws-amplify/auth';
 
+
+
 export default {
     Auth: {
         userPoolId: "eu-central-1_e4NS5sZFi",
@@ -17,17 +19,13 @@ export default {
         endpoints: [
             {
                 name: "protectedAPI",
-                endpoint: "https://r17cnh7yyk.execute-api.eu-central-1.amazonaws.com",
+                endpoint: process.env.ENV === 'development' ?
+                    "https://r17cnh7yyk.execute-api.eu-central-1.amazonaws.com" :
+                    "http://127.0.0.1:3001",
                 custom_header: async () => { 
-                //   return { Authorization : 'token' } 
-                  // Alternatively, with Cognito User Pools use this:
                 //   return { Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}` }
                   return { Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
                 }
-            },
-            {
-                name: "localAPI",
-                endpoint: "http://127.0.0.1:3001"
             }
         ]
     }
