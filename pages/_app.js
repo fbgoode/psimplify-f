@@ -1,6 +1,7 @@
 import '../styles/globals.css';
 import '../styles/Input.css';
 import '../styles/Spin.css';
+import '../styles/notification.css';
 
 //Redux
 import { Provider } from 'react-redux';

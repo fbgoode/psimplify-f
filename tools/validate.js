@@ -49,7 +49,7 @@ export default function validate(fields, context = 'register') {
                     errors[key] = {status: 'error', help: 'Por favor proporcione un NIF, NIE o CIF válido.'};
             break;
             case 'password' :
-                if(! /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test(fields[key]))
+                if(! /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*.])(?=.{8,})/.test(fields[key]))
                     errors[key] = {status: 'error', help: 'La contraseña debe contener como mínimo 8 caracteres, mayúsculas, minúsculas, un número y algún caracter especial.'};
             break;
             case 'passwordValidation' :

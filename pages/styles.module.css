@@ -40,6 +40,17 @@
 
 .buttonContainer {
     margin-bottom:2em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.forgotPassword {
+    color: #8ea0ff;
+    font-size: 0.9em;
+    font-weight: 500;
+    cursor:pointer;
+    user-select: none;
 }
 
 .register p {
