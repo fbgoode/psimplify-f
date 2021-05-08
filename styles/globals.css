@@ -71,20 +71,22 @@ header, footer {
 
 @media (max-width:1165px) {
   .content-3 {
-    width: 49rem;
+    width: 47.5rem;
+  }
+  .content {
+    padding: .7rem .7rem 0 .7rem;
+  }
+  .card.card-1, .card.card-2 {
+    margin-bottom: .7rem;
   }
 }
 
-@media (max-width:784px) {
+@media (max-width:765px) {
   .content, .card {
     max-height:none;
   }
   .card.card-1, .card.card-2 {
     width:100%;
-    margin-bottom: .7rem;
-  }
-  .content {
-    padding: .7rem .7rem 0 .7rem;
   }
 }
 
@@ -101,8 +103,8 @@ header, footer {
 }
 
 .card-content {
-  margin-top: .2rem;
   padding: 0 .6em;
+  padding-top: .2rem;
   flex: 1 1 auto;
   overflow-y: auto;
 }

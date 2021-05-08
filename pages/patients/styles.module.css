@@ -1,0 +1,9 @@
+.inputContainer {
+    width:100%;
+    margin-bottom: .5em;
+}
+
+.buttonContainer button {
+    width:100%;
+    margin-top:.3rem;
+}
