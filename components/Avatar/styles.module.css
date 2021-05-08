@@ -15,7 +15,7 @@
 
 .Avatar .letter {
     margin-bottom:.1rem;
-    font-size: 18px;
+    font-size: 1.5rem;
     font-weight: 500;
 }
 
@@ -41,4 +41,10 @@
     justify-content: center;
     align-items: center;
     flex-direction: row;
+}
+
+@media (max-width:575px) {
+    .Avatar {
+        padding:0;
+    }
 }

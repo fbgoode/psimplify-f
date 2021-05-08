@@ -1,0 +1,26 @@
+.footerContainer {
+  width: 100%;
+  max-width:30em;
+  margin:auto;
+  height: 3em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  position:relative;
+}
+
+.footer {
+  border: 1px solid #E5E5E5;
+  padding: 0 2em;
+  display: none;
+}
+
+@media (max-width:767px) {
+  .footer {
+    display: flex;
+  }
+}
+
+
+

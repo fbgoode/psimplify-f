@@ -15,7 +15,7 @@ const Register = (props) => {
 
   const router = useRouter();
     
-  if (props.user?.userId) router.push('/appointments');
+  if (props.user?._id) router.push('/appointments');
 
   const [user, setUser] = useState({
     email: "",

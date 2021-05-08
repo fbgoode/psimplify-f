@@ -3,7 +3,7 @@ import styles from './styles.module.css';
 import { useRouter } from 'next/router'
 import { Tooltip } from 'antd';
 
-const Avatar = (props) => {
+const HeaderItem = (props) => {
 
     const router = useRouter();
     let selected = false;
@@ -21,4 +21,4 @@ const Avatar = (props) => {
     )
 }
 
-export default Avatar;
+export default HeaderItem;

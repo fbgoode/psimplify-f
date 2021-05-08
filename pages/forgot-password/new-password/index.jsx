@@ -14,8 +14,6 @@ import { Auth } from '@aws-amplify/auth';
 const newPassword = (props) => {
 
   const router = useRouter();
-    
-  if (props.user?.id) router.push('/appointments');
 
   const [user, setUser] = useState({
     email: "",

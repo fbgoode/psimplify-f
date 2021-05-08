@@ -4,6 +4,7 @@ import { notification } from 'antd';
 import Loading from "../../components/Loading";
 import {connect} from 'react-redux';
 import styles from './styles.module.css';
+import Footer from "../../components/Footer";
 
 const Register = (props) => {
     
@@ -19,6 +20,7 @@ const Register = (props) => {
             
         </div>
       </div>
+      <Footer/>
     </>
   );
 };

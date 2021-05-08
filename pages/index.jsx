@@ -17,7 +17,7 @@ const Login = (props) => {
 
     const router = useRouter();
 
-    if (props.user?.userId) router.push('/appointments');
+    if (props.user?._id) router.push('/appointments');
 
     const [credentials, setCredentials] = useState({email:'',password:''});
     const [errors, setErrors] = useState({});

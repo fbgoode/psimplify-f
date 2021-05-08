@@ -14,8 +14,6 @@ import { Auth } from '@aws-amplify/auth';
 const forgotPassword = (props) => {
 
   const router = useRouter();
-    
-  if (props.user?.userId) router.push('/appointments');
 
   const [user, setUser] = useState({
     email: ""
@@ -93,4 +91,4 @@ const forgotPassword = (props) => {
   );
 };
 
-export default connect((state)=>({user: state.user}))(forgotPassword);
+export default connect()(forgotPassword);
