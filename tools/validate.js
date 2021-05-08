@@ -15,7 +15,7 @@ export default function validate(fields, context = 'register') {
             break;
         }
     }
-    else
+    else if (context=='register')
     for (let key in fields) {
         switch (key) {
             case 'email':
@@ -55,6 +55,24 @@ export default function validate(fields, context = 'register') {
             case 'passwordValidation' :
                 if(fields[key] == '' || fields[key] != fields.password)
                     errors[key] = {status: 'error', help: 'La contraseña no coincide con la original.'};
+            break;
+        }
+    }
+    else if (context=='patient')
+    for (let key in fields) {
+        switch (key) {
+            case 'name' :
+                if(! /^[a-zA-Z\u00C0-\u00FF]+(([',. -][a-zA-Z\u00C0-\u00FF ])?[a-zA-Z\u00C0-\u00FF]*)*$/.test(fields[key]))
+                    errors[key] = {status: 'error', help: 'Solo se admiten letras en el campo Nombre.'};
+                if(fields[key] == '')
+                    errors[key] = {status: 'error', help: 'Por favor proporcione un nombre.'};
+            break;
+            case 'lastname' :
+                case 'name' :
+                if(! /^[a-zA-Z\u00C0-\u00FF]+(([',. -][a-zA-Z\u00C0-\u00FF ])?[a-zA-Z\u00C0-\u00FF]*)*$/.test(fields[key]))
+                    errors[key] = {status: 'error', help: 'Solo se admiten letras en el campo Apellidos.'};
+                if(fields[key] == '')
+                    errors[key] = {status: 'error', help: 'Por favor proporcione un apellido.'};
             break;
         }
     }
