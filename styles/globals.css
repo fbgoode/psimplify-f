@@ -26,3 +26,23 @@ a {
 header, footer {
   flex: 0 1 auto;
 }
+
+.pageContainer {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #FBFBFB;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 100%;
+  width:64em;
+  box-sizing: border-box;
+  padding:1em;
+}
+

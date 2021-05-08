@@ -1,5 +1,7 @@
 import '../styles/globals.css';
 import '../styles/Input.css';
+import '../styles/Dropdown.css';
+import '../styles/Tooltip.css';
 import '../styles/Spin.css';
 import '../styles/notification.css';
 

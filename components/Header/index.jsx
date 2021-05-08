@@ -1,58 +1,66 @@
-import React from 'react';
-import CTAButton from '../CTAButton/CTAButton'
-import Avatar from '../Avatar/Avatar';
-import {useHistory} from 'react-router-dom';
+import Avatar from '../Avatar';
 import {connect} from 'react-redux';
-import {OPEN_MENU} from '../../redux/types';
-import styles from './styles.module.scss';
+import styles from './styles.module.css';
+import Link from 'next/link';
+import { Menu,  Dropdown } from 'antd';
+import { Auth } from '@aws-amplify/auth';
+import {LOGOUT} from '../../redux/types';
+import { useRouter } from 'next/router';
+import HeaderItem from '../HeaderItem';
 
 const Header = (props)=>{
+    
+    const router = useRouter();
 
-    let history = useHistory();
-    let credentials =props.credentials;
+    let user = props.user;
 
-   // let credentials = JSON.parse(localStorage.getItem('credentials'));
-
-
-    const goHome = () => {
-        history.push('/');
+    const logOut = async () => {
+        try {
+            await Auth.signOut();
+            props.dispatch({type:LOGOUT});
+            router.push('/');
+        } catch (error) {
+            console.log('error signing out: ', error);
+        }
     }
 
-    const showMenu = () => {
-        props.dispatch({type : OPEN_MENU});
-    }
-
-    let right;
-    let left;
-    let logoClasses = styles.logo;
-    if (props.home === 'true') {
-        right = <CTAButton goto="login" text="Entrar o registrarte" styling="CTA"/>;
-        logoClasses += ' ' + styles.collapse;
-    } else {
-        left = <div className="menu" onClick={()=>{showMenu();}}><div></div><div></div><div></div></div>
-    }
-
-    if (credentials.user?.id) {
-        if (credentials.user.admin) right = <Avatar name={credentials.user.name} color='#444' goto="admin"></Avatar>
-        else right = <Avatar name={credentials.user.name} goto="profile"></Avatar>
-        logoClasses += ' ' + styles.collapse;
-    }
-
+    const menu = (
+        <Menu>
+          <Menu.Item>
+            <Link href="/profile">
+              Mi perfil
+            </Link>
+          </Menu.Item>
+          <Menu.Item>
+            <div onClick={logOut}>
+              Cerrar sesión
+            </div>
+          </Menu.Item>
+        </Menu>
+    );
 
     return(
         <header className={styles.header}>
             <div className={styles.headerContainer}>
-                
-                <div className="menulogo">
-                    {left}
-                    <div className={logoClasses} onClick={goHome}></div>
+            <div className={styles.title}><div>{props.title}</div></div>
+                <Link href="/">
+                    <div className={styles.menulogo}>
+                        <div className={styles.logo}>Psimplify.</div>
+                    </div>
+                </Link>
+                <div className={styles.right}>
+                    <HeaderItem title="Calendario" goto="/appointments" src="/img/cal.svg"/>
+                    <HeaderItem title="Pacientes" goto="/patients" src="/img/patients.svg"/>
+                    <HeaderItem title="Bonos y pagos" goto="/payments" src="/img/cash.svg"/>
+                    <Dropdown overlay={menu} placement="bottomRight">
+                        <div>
+                            <Avatar name={user.name}/>
+                        </div>
+                    </Dropdown>
                 </div>
-
-                {right}
-            
             </div>
         </header>
     )
 }
 
-export default connect((state)=>({credentials:state.credentials,menu:state.menu}))(Header);
+export default connect((state)=>({user:state.user}))(Header);

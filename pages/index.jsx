@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CTAButton from '../components/CTAButton';
 import FormInput from '../components/FormInput';
-// import Header from '../components/Header';
+import Header from '../components/Header/simple';
 import Loading from '../components/Loading';
 import validate from '../tools/validate';
 import { Form, notification } from 'antd';
@@ -11,12 +11,13 @@ import styles from './styles.module.css';
 import { Auth } from '@aws-amplify/auth';
 import { API } from '@aws-amplify/api';
 import { useRouter } from 'next/router';
+import Link from 'next/link'
 
 const Login = (props) => {
 
     const router = useRouter();
 
-    // if (props.user?.userId) router.push('/appointments');
+    if (props.user?.userId) router.push('/appointments');
 
     const [credentials, setCredentials] = useState({email:'',password:''});
     const [errors, setErrors] = useState({});
@@ -36,7 +37,7 @@ const Login = (props) => {
 
     const handleLogin = (response) => {
         props.dispatch({type:LOGIN,payload:response.user});
-        // router.push('/appointments');
+        router.push('/appointments');
     }
 
     const handleFail = (error) => {
@@ -105,7 +106,7 @@ const Login = (props) => {
 
     return (
         <>
-        {/* <Header></Header> */}
+        <Header></Header>
         <Loading visible={loading}></Loading>
         <section className={styles.loginContainer}>
             <div className={styles.login}>
@@ -122,8 +123,10 @@ const Login = (props) => {
                     </Form.Item>
                 </div>
                 <div className={styles.buttonContainer}>
-                    <CTAButton goto="login" text="Acceder" styling="CTA" onClick={()=>submit()}/>
-                    <div className={styles.forgotPassword} onClick={()=>{router.push('/forgot-password')}}>¿Has olvidado tu contraseña?</div>
+                    <CTAButton text="Acceder" styling="CTA" onClick={()=>submit()}/>
+                    <Link href="/forgot-password">
+                        <div className={styles.forgotPassword}>¿Has olvidado tu contraseña?</div>
+                    </Link>
                 </div>
             </div>
             <div className={styles.separator}>
@@ -133,7 +136,7 @@ const Login = (props) => {
                 <h3>¿Aún no tienes cuenta?</h3>
                 <p>Psimplify te aporta más organización y productividad como terapeuta para que puedas dedicar más tiempo a lo que importa, las personas.</p>
                 <div>
-                    <CTAButton goto="register" text="Regístrate" styling="alt"/>
+                    <CTAButton goto="/register" text="Regístrate" styling="alt"/>
                 </div>
             </div>
         </section>

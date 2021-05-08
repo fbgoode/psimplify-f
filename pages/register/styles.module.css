@@ -18,7 +18,7 @@
 .buttonContainer {
     display:flex;
     justify-content: flex-end;
-    margin-bottom:0.83em;
+    margin-bottom:1.5em;
 }
 
 .registerForm {

@@ -1,0 +1,44 @@
+.avatarPic {
+    background-color: #43DEAF;
+    display:inline-block;
+    border-radius: 50em;
+    color:white;
+}
+
+.Avatar .avatarPic {
+    width: 2.5em;
+    height: 2.5em;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Avatar .letter {
+    margin-bottom:.1rem;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.small .name {
+    display:inline-block;
+    margin-bottom:.3em;
+    margin-left:.8em;
+    color: #333;
+}
+
+.Avatar.big {
+    font-size: 3rem;
+}
+
+.Avatar.big .letter {
+    margin-bottom: .2em;
+}
+
+.Avatar {
+    cursor:pointer;
+    padding: 0.4rem 0.8rem;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}

@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-// import Header from "../../components/Header";
+import Header from '../../components/Header/simple';
 import validate from "../../tools/validate";
 import CTAButton from "../../components/CTAButton";
 import FormInput from "../../components/FormInput";
 import { Form, notification } from 'antd';
 import Loading from "../../components/Loading";
-// import Message from "../../components/Message/Message";
 import {connect} from 'react-redux';
 import {QUEUE_MESSAGE} from '../../redux/types';
 import { useRouter } from 'next/router';
@@ -89,7 +88,7 @@ const Register = (props) => {
 
   return (
     <>
-      {/* <Header></Header> */}
+      <Header></Header>
       <Loading visible={loading}></Loading>
       <div className={styles.registerContainer}>
         <div className={styles.registerForm}>

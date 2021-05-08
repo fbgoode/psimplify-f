@@ -1,21 +1,19 @@
 import styles from './styles.module.css';
-import { useRouter } from 'next/router';
+import Link from 'next/link'
 
 const CTAButton = (props) => {
 
-    const router = useRouter();
-
     const styling = `${styles.CTAButton} ${styles[(props.styling || 'CTA')]}`;
-
-    const route = () => {
-        router.push(`/${props.goto}`);
-    }
-
-    let onClick = () => route();
-    if (props.onClick) onClick = props.onClick;
-
-    return(
-        <button onClick={onClick} className={styling}>
+    
+    if (props.goto) return (
+        <Link href={props.goto}>
+            <button className={styling}>
+                {props.text}
+            </button>
+        </Link>
+    )
+    else if (props.onClick) return(
+        <button onClick={props.onClick} className={styling}>
             {props.text}
         </button>
     )

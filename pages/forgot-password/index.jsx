@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-// import Header from "../../components/Header";
+import Header from '../../components/Header/simple';
 import validate from "../../tools/validate";
 import CTAButton from "../../components/CTAButton";
 import FormInput from "../../components/FormInput";
@@ -73,7 +73,7 @@ const forgotPassword = (props) => {
 
   return (
     <>
-      {/* <Header></Header> */}
+      <Header></Header>
       <Loading visible={loading}></Loading>
       <div className={styles.registerContainer}>
         <div className={styles.registerForm}>

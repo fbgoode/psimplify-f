@@ -1,0 +1,27 @@
+.col {
+    width: 1.75rem;
+    height:100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin: 0 1em;
+    cursor: pointer;
+}
+
+.icon {
+    width: 1.75rem;
+    height: 1.75rem;
+}
+
+.icon:hover {
+    opacity: 1!important;
+}
+
+.line {
+    width: 1.75rem;
+    height: .2rem;
+    position:absolute;
+    bottom: 0;
+    left: 0;
+}
