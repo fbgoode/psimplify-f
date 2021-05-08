@@ -36,15 +36,8 @@
 
 .Avatar {
     cursor:pointer;
-    padding: 0.4rem 0.8rem;
     display: inline-flex;
     justify-content: center;
     align-items: center;
     flex-direction: row;
-}
-
-@media (max-width:575px) {
-    .Avatar {
-        padding:0;
-    }
 }

@@ -60,6 +60,7 @@
   display: flex;
   align-items: center;
   height: 100%;
+  margin-right:.5rem;
 }
 
 .right{
@@ -76,8 +77,9 @@
 }
 
 .header {
-  border: 1px solid #E5E5E5;
+  outline: 1px solid #E5E5E5;
   padding: 0 1.2em;
+  z-index: 9;
 }
 
 @media (max-width:1199px) {

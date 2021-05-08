@@ -16,8 +16,59 @@ const Register = (props) => {
       <Header title="Calendario"></Header>
       <Loading visible={loading}></Loading>
       <div className="pageContainer">
-        <div className="content">
-            
+        <div className="content content-3">
+            <div className="card card-1" style={{minHeight:"39rem"}}>
+              <div className="card-header">Jueves, 15 de abril de 2021</div>
+              <div className="card-content">
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+              </div>
+            </div>
+            <div className="card card-1" style={{minHeight:"22.5rem"}}>
+              <div className="card-header">Abril de 2021</div>
+              <div className="card-content">
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+              </div>
+            </div>
+            <div className="card card-1" style={{minHeight:"22.5rem"}}>
+              <div className="card-header">Abril de 2021</div>
+              <div className="card-content">
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+                <div>Sample</div>
+              </div>
+            </div>
         </div>
       </div>
       <Footer/>
