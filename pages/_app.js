@@ -3,6 +3,7 @@ import '../styles/Input.css';
 import '../styles/Dropdown.css';
 import '../styles/Tooltip.css';
 import '../styles/Spin.css';
+import '../styles/Calendar.css';
 import '../styles/notification.css';
 
 //Redux

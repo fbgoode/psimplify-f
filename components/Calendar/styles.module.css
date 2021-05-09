@@ -1,0 +1,25 @@
+.dot {
+    width:.35rem;
+    height:.35rem;
+    margin:.1rem;
+    border-radius: 1rem;
+}
+
+.plus {
+    margin: -.5rem 0;
+    font-weight: bold;
+    font-size: 14px;
+    color: #e56877;
+}
+
+.icon {
+    width:18px;
+    height:18px;
+    margin-left:.5rem;
+    cursor:pointer;
+}
+
+.icons {
+    display: flex;
+    align-items: center;
+}
