@@ -1,10 +1,9 @@
 .card {
-    padding: .6rem .6rem .7rem 1rem;
+    padding: .7rem .7rem .8rem 1rem;
     border-radius: .4rem;
     display: flex;
     margin-bottom:.5rem;
     color: rgba(0,0,0,.4);
-    font-size: 1.125rem;
     align-items: center;
     border:1px solid transparent;
     cursor:default;
@@ -17,6 +16,9 @@
 
 .content {
     flex: 1 1 auto;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .right {
@@ -47,6 +49,7 @@
 .availability, .exclusion {
     background-color: #FFF;
     border:1px solid rgba(0,0,0,.12);
+    padding: .3rem .7rem .4rem 1rem;
 }
 
 .availability .left, .exclusion .left {

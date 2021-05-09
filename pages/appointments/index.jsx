@@ -8,6 +8,7 @@ import Footer from "../../components/Footer";
 import Calendar from "../../components/Calendar";
 import DayCard from "../../components/DayCard";
 import { API } from '@aws-amplify/api';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Register = (props) => {
 
@@ -17,13 +18,21 @@ const Register = (props) => {
   const [appointments, setAppointments] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [dayCards, setDayCards] = useState([]);
+  const [lastCards, setLastCards] = useState({cards:[],lastDate:new Date(),last:false});
 
   const dateString = selectedDate.toLocaleDateString('es-ES',{weekday:"long",day:"numeric",month:"long",year:"numeric"});
   const dateStringProper = dateString.charAt(0).toUpperCase() + dateString.slice(1);
 
   useEffect(()=>{
     onPanelChange({_d:new Date},"month");
+    fetchLastCards();
   },[]);
+
+  const fetchLastCards = () => {
+    API.get('protectedAPI', `/appointments/last?untilDate=${lastCards.lastDate}`)
+    .then(res=>{setLastCards({cards:[...lastCards.cards,...res.appointments],last:res.last,lastDate:res.appointments[res.appointments.length-1]?.date})})
+    .catch(handleFail);
+  }
 
   useEffect(()=>{
     // Logic to structure day's card data depending on set availability, appointments and exclusions
@@ -121,7 +130,7 @@ const Register = (props) => {
     const fromDate = getMonday(firstDay);
     const toDate = sumDays(fromDate,42);
     API.get('protectedAPI', `/appointments?fromDate=${fromDate}&toDate=${toDate}`)
-    .then(res=>{setAppointments(res.appointment)})
+    .then(res=>{setAppointments(res.appointments)})
     .catch(handleFail);
   }
 
@@ -163,12 +172,16 @@ const Register = (props) => {
               <Calendar appointments={appointments} onPanelChange={onPanelChange} onSelectDate={onSelectDate}/>
             </div>
             <div className="card card-1" style={{minHeight:"39rem"}}>
-              <div className="card-header">Abril de 2021</div>
-              <div className="card-content">
-                <div>Sample</div>
-                <div>Sample</div>
-                <div>Sample</div>
-                <div>Sample</div>
+              <div className="card-header">Últimas sesiones</div>
+              <div id="lastCardsDiv" className="card-content">
+              <InfiniteScroll
+                scrollableTarget="lastCardsDiv"
+                dataLength={lastCards.cards.length}
+                next={fetchLastCards}
+                hasMore={!lastCards.last}
+                loader={<div className={styles.loadingContainer}><Loading visible={true}/></div>}>
+                  {lastCards.cards.map(card=><DayCard event={card} type="appointment" key={Math.random()*999999} context="last"/>)}
+                </InfiniteScroll>
               </div>
             </div>
         </div>
