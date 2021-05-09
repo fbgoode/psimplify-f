@@ -42,11 +42,11 @@ const customCalendar = (props)=>{
                 count++;
                 if (count>8) {
                     append.splice(-1,1);
-                    append.push(<div className={styles.plus}>+</div>);
+                    append.push(<div key={appointment._id} className={styles.plus}>+</div>);
                     break;
                 }
                 let backgroundColor = appointment.paid?"#6AE8AC":appointment.status==="ok"?"#43AFDE":appointment.status==="cancelled"?"#D8D8D8":"#999";
-                append.push(<div className={styles.dot} style={{backgroundColor}}></div>);
+                append.push(<div key={appointment._id} className={styles.dot} style={{backgroundColor}}></div>);
             }
         }
         return append;

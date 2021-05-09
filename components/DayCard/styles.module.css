@@ -1,0 +1,58 @@
+.card {
+    padding: .6rem .6rem .7rem 1rem;
+    border-radius: .4rem;
+    display: flex;
+    margin-bottom:.5rem;
+    color: rgba(0,0,0,.4);
+    font-size: 1.125rem;
+    align-items: center;
+    border:1px solid transparent;
+    cursor:default;
+}
+
+.left {
+    margin-right: 1rem;
+    flex: 0 1 auto;
+}
+
+.content {
+    flex: 1 1 auto;
+}
+
+.right {
+    flex: 0 1 auto;
+}
+
+.ok {
+    background-color: #43AFDE;
+    color: #FFF;
+}
+
+.paid {
+    background-color: #6AE8AC;
+    color: #FFF;
+}
+
+.nok {
+    background-color: #999;
+    color: #FFF;
+}
+
+.cancelled {
+    background-color: #D2D2D2;
+    color: #FFF;
+    text-decoration: line-through;
+}
+
+.availability, .exclusion {
+    background-color: #FFF;
+    border:1px solid rgba(0,0,0,.12);
+}
+
+.availability .left, .exclusion .left {
+    color: rgba(0,0,0,.5);
+}
+
+.availability {
+    color: rgba(0,0,0,.3);
+}
