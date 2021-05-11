@@ -76,5 +76,27 @@ export default function validate(fields, context = 'register') {
             break;
         }
     }
+    else if (context=='exclusion')
+    for (let key in fields) {
+        switch (key) {
+            case 'from' :
+                if(!(fields[key] instanceof Date))
+                    errors[key] = {status: 'error', help: 'Formato de fecha incorrecto.'};
+                if(!fields[key])
+                    errors[key] = {status: 'error', help: 'Debes seleccionar una fecha de comienzo.'};
+            break;
+            case 'to' :
+                if(!(fields[key] instanceof Date))
+                    errors[key] = {status: 'error', help: 'Formato de fecha incorrecto.'};
+                if(!fields[key])
+                    errors[key] = {status: 'error', help: 'Debes seleccionar una fecha final.'};
+            break;
+            case 'fromTime' :
+            case 'toTime' :
+                if(! /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(fields[key]))
+                    errors[key] = {status: 'error', help: 'Introduzca la hora en formato HH:mm.'};
+            break;
+        }
+    }
     return errors;
 }

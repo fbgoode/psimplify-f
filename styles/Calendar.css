@@ -1191,22 +1191,22 @@ _:-ms-fullscreen .ant-picker-range-wrapper .ant-picker-year-panel .ant-picker-ce
 
 /* ADDED */
 
-.ant-picker-calendar-date-content {
+.card-content .ant-picker-calendar-date-content {
   display:flex;
   flex-wrap: wrap;
   height:1rem;
   justify-content: center;
 }
-.ant-picker-cell .ant-picker-cell-inner {
+.card-content .ant-picker-cell .ant-picker-cell-inner {
   width: 2.7rem;
   height: 2.7rem;
 }
-.ant-picker-content thead {
+.card-content .ant-picker-content thead {
   border-bottom: .5em solid transparent;
 }
-.ant-picker-calendar.ant-picker-calendar-mini {
+.card-content .ant-picker-calendar.ant-picker-calendar-mini {
   margin-top:-.5rem;
 }
-.ant-picker-calendar.ant-picker-calendar-mini .ant-picker-panel .ant-picker-date-panel .ant-picker-body {
+.card-content .ant-picker-calendar.ant-picker-calendar-mini .ant-picker-panel .ant-picker-date-panel .ant-picker-body {
   padding-bottom:0;
 }

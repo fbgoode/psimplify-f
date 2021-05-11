@@ -1,0 +1,43 @@
+.ant-btn {
+    border: none;
+    font-size: inherit;
+    font-family: inherit;
+    display:inline-block;
+    border-radius: .5em;
+    padding: 0.4em 1.5em 0.6em 1.5em;
+    font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    transition: background-color .3s ease;
+    background-color: #FFF;
+    color: #666;
+    border: 1px solid #B8B8B8;
+    transition: background-color .3s ease, color .3s ease;
+}
+
+.ant-btn:hover {
+    color: rgb(255, 255, 255);
+    background-color: #000000;
+}
+
+.ant-btn-primary {
+    background-color: #687CE5;
+    color: #FFF;
+    border:none;
+}
+
+.ant-btn-primary:hover {
+    background-color: #5869c0;
+}
+
+.ant-btn:focus {
+    outline: none;
+}
+
+.ant-btn .ant-btn-loading-icon {
+    margin-right:.5rem;
+    margin-left:-.5rem;
+}

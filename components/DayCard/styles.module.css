@@ -23,6 +23,9 @@
 
 .right {
     flex: 0 1 auto;
+    display:flex;
+    align-items: center;
+    height:100%;
 }
 
 .ok {
@@ -36,12 +39,12 @@
 }
 
 .nok {
-    background-color: #999;
+    background-color: #BBB;
     color: #FFF;
 }
 
 .cancelled {
-    background-color: #D2D2D2;
+    background-color: #DADADA;
     color: #FFF;
     text-decoration: line-through;
 }
@@ -49,7 +52,7 @@
 .availability, .exclusion {
     background-color: #FFF;
     border:1px solid rgba(0,0,0,.12);
-    padding: .3rem .7rem .4rem 1rem;
+    padding: .3rem 1rem .4rem 1rem;
 }
 
 .availability .left, .exclusion .left {
@@ -58,4 +61,25 @@
 
 .availability {
     color: rgba(0,0,0,.3);
+}
+
+.icon {
+    width:1.25rem;
+    height:1.25rem;
+    opacity: .6;
+    cursor: pointer;
+}
+
+.icon:hover {
+    opacity: .9;
+}
+
+.exclusion {
+    background: repeating-linear-gradient(
+    45deg,
+    #FFF,
+    #FFF 5px,
+    #F8F8F8 5px,
+    #F8F8F8 8px
+    );
 }

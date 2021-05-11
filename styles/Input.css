@@ -1734,3 +1734,60 @@ textarea.ant-input {
 .ant-input-affix-wrapper {
   box-sizing: border-box;
 }
+
+.ant-form.ant-form-vertical .ant-input, .ant-form.ant-form-vertical .ant-input-affix-wrapper, .ant-form.ant-form-vertical .ant-picker {
+  padding: .3rem .5rem;
+}
+
+.ant-form.ant-form-vertical .ant-form-item {
+  margin-bottom: .3rem;
+}
+
+.ant-form.ant-form-vertical .ant-form-item-label {
+  padding:0;
+}
+
+.ant-form.ant-form-vertical .ant-form-item-label > label {
+  font-size: .8rem;
+}
+
+.ant-form.ant-form-vertical .twoCols {
+  display:flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.ant-form.ant-form-vertical .twoCols .ant-row {
+  width:48%;
+}
+
+.ant-form.ant-form-vertical .ant-input-affix-wrapper > input {
+  padding:0;
+}
+
+.ant-form.ant-form-vertical .ant-input-affix-wrapper{
+  align-items: center;
+}
+
+.ant-form.ant-form-vertical .ant-input-affix-wrapper .ant-input-suffix{
+  -webkit-transform: none;
+  transform: none;
+}
+
+.ant-input-suffix .inputIcon {
+  opacity: .25;
+  width:.9rem;
+  height:.9rem;
+  cursor:default;
+}
+
+@media (max-width:576px) {
+  .ant-form.ant-form-vertical .twoCols.collapse .ant-row {
+    width:100%;
+  }
+}
+
+.ant-form.ant-form-vertical .ant-picker {
+  border-radius: .5rem;
+  width:100%;
+}

@@ -5,6 +5,9 @@ import '../styles/Tooltip.css';
 import '../styles/Spin.css';
 import '../styles/Calendar.css';
 import '../styles/notification.css';
+import '../styles/Modal.css';
+import '../styles/Select.css';
+import '../styles/Button.css';
 
 //Redux
 import { Provider } from 'react-redux';

@@ -9,19 +9,35 @@ import Calendar from "../../components/Calendar";
 import DayCard from "../../components/DayCard";
 import { API } from '@aws-amplify/api';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import NewExclusionModal from "../../components/NewExclusionModal";
 
 const Register = (props) => {
-
-  const user = props.user;
     
   const [loading, setLoading] = useState(false);
   const [appointments, setAppointments] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [dayCards, setDayCards] = useState([]);
   const [lastCards, setLastCards] = useState({cards:[],lastDate:new Date(),last:false});
+  const [modals, setModals] = useState({exclusion:false});
 
   const dateString = selectedDate.toLocaleDateString('es-ES',{weekday:"long",day:"numeric",month:"long",year:"numeric"});
   const dateStringProper = dateString.charAt(0).toUpperCase() + dateString.slice(1);
+
+  const onExclusionOk = () => {
+    notification.success({
+      message: "Horario marcado con éxito",
+      duration:6
+    });
+    setModals({...modals,exclusion:false});
+  }
+
+  useEffect(()=>{
+    getDaysSchedule();
+  },[modals])
+
+  const onExclusionCancel = () => {
+    setModals({...modals,exclusion:false});
+  }
 
   useEffect(()=>{
     onPanelChange({_d:new Date},"month");
@@ -35,13 +51,17 @@ const Register = (props) => {
   }
 
   useEffect(()=>{
+    getDaysSchedule();
+  },[selectedDate,appointments]);
+
+  const getDaysSchedule = () => {
     // Logic to structure day's card data depending on set availability, appointments and exclusions
     let daysAppointments = getDaysAppointments(selectedDate);
     let daysExclusions = getDaysExclusions(selectedDate);
     let daysEvents = [...daysAppointments,...daysExclusions];
     let morningsAvailability = [];
     let afternoonsAvailability = [];
-    if (new Date().setHours(0) < new Date(selectedDate).setHours(0)) {
+    if (new Date().setHours(0) < new Date(selectedDate)) {
       daysEvents.sort((a,b)=>{
         if (a.from<b.from) return -1;
         if (a.from>b.from) return 1;
@@ -58,7 +78,7 @@ const Register = (props) => {
       return 0;
     });
     setDayCards(cards);
-  },[selectedDate,appointments]);
+  }
 
   const getAvailability = (date,schedule,events) => {
     let from = new Date(date).setHours(schedule.from.hour,schedule.from.minute,0,0);
@@ -76,16 +96,16 @@ const Register = (props) => {
         from = event.to;
       }
     }
-    availability.push({from:new Date(from),to: new Date(to),type:"availability"});
+    if(to>from) availability.push({from:new Date(from),to: new Date(to),type:"availability"});
     return availability;
   }
 
   const getUserSchedule = (date) => {
     const weekday = date.toLocaleDateString('en-EN',{weekday:"long"}).toLowerCase();
     let schedule = [];
-    if (user.config.appointments?.specialDays[weekday]?.override)
-      schedule = user.config.appointments.specialDays[weekday].schedule;
-    else schedule = user.config.appointments.schedule;
+    if (props.user.config.appointments?.specialDays[weekday]?.override)
+      schedule = props.user.config.appointments.specialDays[weekday].schedule;
+    else schedule = props.user.config.appointments.schedule;
     return schedule;
   }
 
@@ -93,15 +113,17 @@ const Register = (props) => {
     let from = new Date(date).setHours(0,0,0,0);
     let to = new Date(date).setHours(23,59,59,0);
     let daysExclusions = [];
-    for (let exclusion of user.config.appointments?.exclude) {;
-      if (exclusion.from > from && exclusion.to < to)
-        daysExclusions.push({...exclusion,type:"exclusion"});
-      else if (exclusion.from < from && exclusion.to > to)
+    for (let exclusion of props.user.config.appointments?.exclude) {
+      const excFrom = new Date(exclusion.from);
+      const excTo = new Date(exclusion.to);
+      if (excFrom > from && excTo < to)
+        daysExclusions.push({title:exclusion.title,from:excFrom,to:excTo,type:"exclusion"});
+      else if (excFrom < from && excTo > to)
         daysExclusions.push({title:exclusion.title,from,to,type:"exclusion"});
-      else if (exclusion.from < from && exclusion.to > from)
-        daysExclusions.push({title:exclusion.title,from,to:exclusion.to,type:"exclusion"});
-      else if (exclusion.from < to && exclusion.to > to)
-        daysExclusions.push({title:exclusion.title,from:exclusion.from,to,type:"exclusion"});
+      else if (excFrom < from && excTo > from)
+        daysExclusions.push({title:exclusion.title,from,to:excTo,type:"exclusion"});
+      else if (excFrom < to && excTo > to)
+        daysExclusions.push({title:exclusion.title,from:excFrom,to,type:"exclusion"});
     }
     return daysExclusions;
   }
@@ -160,12 +182,15 @@ const Register = (props) => {
     <>
       <Header title="Calendario"></Header>
       <Loading visible={loading}></Loading>
+      <NewExclusionModal onOk={onExclusionOk} onCancel={onExclusionCancel} visible={modals.exclusion}/>
       <div className="pageContainer">
         <div className="content content-3">
             <div className="card card-1" style={{minHeight:"39rem"}}>
               <div className="card-header">{dateStringProper}</div>
               <div className="card-content">
-                {dayCards.map(card=><DayCard event={card} type={card.type} key={Math.random()*999999} context="day"/>)}
+                {dayCards.map(card=><DayCard event={card} type={card.type} key={Math.random()*999999} context="day"
+                  onNewExclusion={card.type==="availability"?(()=>{setModals({...modals,exclusion:true})}):(()=>{})}
+                  />)}
               </div>
             </div>
             <div className="card card-1" style={{paddingBottom:".5rem"}}>
@@ -180,7 +205,9 @@ const Register = (props) => {
                 next={fetchLastCards}
                 hasMore={!lastCards.last}
                 loader={<div className={styles.loadingContainer}><Loading visible={true}/></div>}>
-                  {lastCards.cards.map(card=><DayCard event={card} type="appointment" key={Math.random()*999999} context="last"/>)}
+                  {lastCards.cards.map(card=>
+                  <DayCard event={card} type="appointment" key={Math.random()*999999} context="last"/>
+                  )}
                 </InfiniteScroll>
               </div>
             </div>

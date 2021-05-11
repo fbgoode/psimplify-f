@@ -1,4 +1,5 @@
 .loadingContainer {
     height:3rem;
     position:relative;
+    z-index: 0!important;
 }

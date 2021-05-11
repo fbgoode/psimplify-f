@@ -29,7 +29,6 @@ const Login = (props) => {
     }
 
     const handleSuccess = (response) => {
-        console.log(response);
         API.get('protectedAPI', '/users/' + response.username)
         .then(handleLogin)
         .catch(handleFail);
