@@ -29,9 +29,7 @@
 .input {
     background: none;
     border: none;
-    padding: none;
-    padding-left:2.9rem;
-    padding-right:.5rem;
+    padding: 0 .5rem 0 2.9rem;
     font-family: inherit;
     font-size: inherit;
     z-index: 3;
