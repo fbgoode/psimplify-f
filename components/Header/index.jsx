@@ -2,7 +2,7 @@ import Avatar from '../Avatar';
 import {connect} from 'react-redux';
 import styles from './styles.module.css';
 import Link from 'next/link';
-import { Menu,  Dropdown } from 'antd';
+import { Menu,  Dropdown, Tooltip } from 'antd';
 import { Auth } from '@aws-amplify/auth';
 import {LOGOUT} from '../../redux/types';
 import { useRouter } from 'next/router';
@@ -27,10 +27,10 @@ const Header = (props)=>{
 
     const menu = (
         <Menu>
-          <Menu.Item>
-            <Link href="/profile">
+          <Menu.Item style={{opacity:.3}}>
+            {/* <Link href="/profile"> */}
               Mi perfil
-            </Link>
+            {/* </Link> */}
           </Menu.Item>
           <Menu.Item>
             <div onClick={logOut}>
@@ -57,7 +57,12 @@ const Header = (props)=>{
                     <div className={styles.menuItems}>
                         <HeaderItem title="Calendario" goto="/appointments" src="/img/cal.svg"/>
                         <HeaderItem title="Pacientes" goto="/patients" src="/img/patients.svg"/>
-                        <HeaderItem title="Bonos y pagos" goto="/payments" src="/img/cash.svg"/>
+                        {/* <HeaderItem title="Bonos y pagos" goto="/payments" src="/img/cash.svg"/> */}
+                        <Tooltip placement="bottom" title="Bonos y pagos (coming soon)" mouseEnterDelay="0.5">
+                            <div className={styles.col}>
+                                <img src="/img/cash.svg" alt="Bonos y pagos" style={{width:"1.75rem",height:"1.75rem",opacity:".4"}}/>
+                            </div>
+                        </Tooltip>
                     </div>
                     <Dropdown overlay={menu} placement="bottomRight">
                         <div style={{marginLeft:".7rem"}}>

@@ -68,7 +68,8 @@ const Register = (props) => {
       <Header title="Pacientes"></Header>
       <Loading visible={loading}></Loading>
       <div className="pageContainer">
-        <div className="content content-3">
+        {/* Quitar style del div inferior */}
+        <div className="content content-3" style={{justifyContent:"center"}}>
             <div className="card card-1">
               <div className="card-header">Nuevo paciente</div>
               <div className="card-content">
@@ -112,13 +113,13 @@ const Register = (props) => {
                 </div>
               </div>
             </div>
-            <div className="card card-2" style={{minHeight:"39rem"}}>
+            {/* <div className="card card-2" style={{minHeight:"39rem"}}>
               <div className="card-header">Pacientes</div>
               <div className="card-content">
                 <div>Sample</div>
                 <div>Sample</div>
               </div>
-            </div>
+            </div> */}
         </div>
       </div>
       <Footer/>

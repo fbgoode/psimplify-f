@@ -49,6 +49,11 @@ header, footer {
   /* max-height: calc(100vh - 3.3rem); */
 }
 
+.content.reverse {
+  flex-wrap: wrap-reverse;
+  align-items: flex-end;
+}
+
 .card {
   max-width: 100%;
   background-color: #FFF;
@@ -78,6 +83,9 @@ header, footer {
   }
   .card.card-1, .card.card-2 {
     margin-bottom: .7rem;
+  }
+  .card.dissapear {
+    display:none;
   }
 }
 

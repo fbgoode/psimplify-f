@@ -204,7 +204,7 @@ const Register = (props) => {
       <NewExclusionModal onOk={onExclusionOk} onCancel={onExclusionCancel} visible={modals.exclusion.visible}/>
       <NewAppointmentModal onOk={onAppointmentOk} onCancel={onAppointmentCancel} visible={modals.appointment.visible}/>
       <div className="pageContainer">
-        <div className="content content-3">
+        <div className="content content-3 reverse">
             <div className="card card-1" style={{minHeight:"39rem"}}>
               <div className="card-header">
                 <div>{dateStringProper}</div>
@@ -226,7 +226,7 @@ const Register = (props) => {
             <div className="card card-1" style={{paddingBottom:".5rem"}}>
               <Calendar appointments={appointments} onPanelChange={onPanelChange} onSelectDate={onSelectDate}/>
             </div>
-            <div className="card card-1" style={{minHeight:"39rem"}}>
+            <div className="card card-1 dissapear" style={{minHeight:"39rem"}}>
               <div className="card-header">Últimas sesiones</div>
               <div id="lastCardsDiv" className="card-content">
               <InfiniteScroll
