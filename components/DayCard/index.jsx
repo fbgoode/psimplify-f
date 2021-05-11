@@ -26,7 +26,7 @@ const DateCard = (props) => {
                 <div>{props.event.to.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div></>;
             content = "Disponible";
             right = <Tooltip placement="right" title="Marcar no disponible" mouseEnterDelay="0.5">
-                <img src="/img/cal-x.svg" alt="Marcar no disponible" onClick={()=>{newExclusion()}} className={styles.icon}/>
+                <img className="icon" src="/img/cal-x.svg" alt="Marcar no disponible" onClick={()=>{newExclusion()}}/>
                 </Tooltip>;
             break;
         case "exclusion":

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Header from "../../components/Header";
-import { notification } from 'antd';
+import { notification, Tooltip } from 'antd';
 import Loading from "../../components/Loading";
 import {connect} from 'react-redux';
 import styles from './styles.module.css';
@@ -10,6 +10,7 @@ import DayCard from "../../components/DayCard";
 import { API } from '@aws-amplify/api';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import NewExclusionModal from "../../components/NewExclusionModal";
+import NewAppointmentModal from "../../components/NewAppointmentModal";
 
 const Register = (props) => {
     
@@ -18,7 +19,7 @@ const Register = (props) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [dayCards, setDayCards] = useState([]);
   const [lastCards, setLastCards] = useState({cards:[],lastDate:new Date(),last:false});
-  const [modals, setModals] = useState({exclusion:false});
+  const [modals, setModals] = useState({exclusion:{visible:false,new:false},appointment:{visible:false,new:false}});
 
   const dateString = selectedDate.toLocaleDateString('es-ES',{weekday:"long",day:"numeric",month:"long",year:"numeric"});
   const dateStringProper = dateString.charAt(0).toUpperCase() + dateString.slice(1);
@@ -28,15 +29,33 @@ const Register = (props) => {
       message: "Horario marcado con éxito",
       duration:6
     });
-    setModals({...modals,exclusion:false});
+    setModals({...modals,exclusion:{visible:false,new:true}});
+  }
+
+  const onAppointmentOk = () => {
+    notification.success({
+      message: "Sesión creada con éxito",
+      duration:6
+    });
+    setModals({...modals,appointment:{visible:false,new:true}});
   }
 
   useEffect(()=>{
-    getDaysSchedule();
-  },[modals])
+    if (modals.exclusion.new)
+      getDaysSchedule();
+  },[modals.exclusion.new]);
+
+  useEffect(()=>{
+    if (modals.appointment.new)
+      onPanelChange({_d:selectedDate},"month");
+  },[modals.appointment.new]);
 
   const onExclusionCancel = () => {
-    setModals({...modals,exclusion:false});
+    setModals({...modals,exclusion:{visible:false,new:false}});
+  }
+
+  const onAppointmentCancel = () => {
+    setModals({...modals,appointment:{visible:false,new:false}});
   }
 
   useEffect(()=>{
@@ -182,14 +201,25 @@ const Register = (props) => {
     <>
       <Header title="Calendario"></Header>
       <Loading visible={loading}></Loading>
-      <NewExclusionModal onOk={onExclusionOk} onCancel={onExclusionCancel} visible={modals.exclusion}/>
+      <NewExclusionModal onOk={onExclusionOk} onCancel={onExclusionCancel} visible={modals.exclusion.visible}/>
+      <NewAppointmentModal onOk={onAppointmentOk} onCancel={onAppointmentCancel} visible={modals.appointment.visible}/>
       <div className="pageContainer">
         <div className="content content-3">
             <div className="card card-1" style={{minHeight:"39rem"}}>
-              <div className="card-header">{dateStringProper}</div>
+              <div className="card-header">
+                <div>{dateStringProper}</div>
+                <div className={styles.cardActions}>
+                  <Tooltip placement="bottom" title="Nueva sesión" mouseEnterDelay="0.5">
+                    <img style={{marginRight:".7rem"}} className="icon" src="/img/cal-add.svg" alt="Nueva sesión" onClick={()=>{setModals({...modals,appointment:{visible:true,new:false}})}}/>
+                  </Tooltip>
+                  <Tooltip placement="bottom" title="Marcar no disponible" mouseEnterDelay="0.5">
+                    <img className="icon" src="/img/cal-x.svg" alt="Marcar no disponible" onClick={()=>{setModals({...modals,exclusion:{visible:true,new:false}})}}/>
+                  </Tooltip>
+                </div>
+              </div>
               <div className="card-content">
                 {dayCards.map(card=><DayCard event={card} type={card.type} key={Math.random()*999999} context="day"
-                  onNewExclusion={card.type==="availability"?(()=>{setModals({...modals,exclusion:true})}):(()=>{})}
+                  onNewExclusion={card.type==="availability"?(()=>{setModals({...modals,exclusion:{visible:true,new:false}})}):(()=>{})}
                   />)}
               </div>
             </div>

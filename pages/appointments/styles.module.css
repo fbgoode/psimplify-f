@@ -3,3 +3,9 @@
     position:relative;
     z-index: 0!important;
 }
+
+.cardActions {
+    height:100%;
+    display: flex;
+    align-items: center;
+}

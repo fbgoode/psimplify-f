@@ -8,6 +8,7 @@ import '../styles/notification.css';
 import '../styles/Modal.css';
 import '../styles/Select.css';
 import '../styles/Button.css';
+import '../styles/Icon.css';
 
 //Redux
 import { Provider } from 'react-redux';

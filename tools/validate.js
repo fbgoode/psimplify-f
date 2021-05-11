@@ -94,7 +94,26 @@ export default function validate(fields, context = 'register') {
             case 'fromTime' :
             case 'toTime' :
                 if(! /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(fields[key]))
-                    errors[key] = {status: 'error', help: 'Introduzca la hora en formato HH:mm.'};
+                    errors[key] = {status: 'error', help: 'Introduce la hora en formato HH:mm.'};
+            break;
+        }
+    }
+    else if (context=='appointment')
+    for (let key in fields) {
+        switch (key) {
+            case 'date' :
+                if(!(fields[key] instanceof Date))
+                    errors[key] = {status: 'error', help: 'Formato de fecha incorrecto.'};
+                if(!fields[key])
+                    errors[key] = {status: 'error', help: 'Debes seleccionar una fecha.'};
+            break;
+            case 'patient' :
+                if(fields[key].length !== 24)
+                    errors[key] = {status: 'error', help: 'Por favor proporcione un ID de paciente válido.'};
+            break;
+            case 'dateTime' :
+                if(! /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(fields[key]))
+                    errors[key] = {status: 'error', help: 'Introduce la hora en formato HH:mm.'};
             break;
         }
     }
