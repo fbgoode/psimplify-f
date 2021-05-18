@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import {connect} from "react-redux";
-import {Form, DatePicker, Input, notification} from 'antd';
+import { connect } from "react-redux";
+import { Form, DatePicker, Input, notification } from 'antd';
 import moment from 'moment';
 import validate from "../../tools/validate";
 import Modal from "../Modal";
@@ -8,7 +8,7 @@ import TimeInput from "../TimeInput";
 import PatientInput from "../PatientInput";
 import { API } from '@aws-amplify/api';
 import Loading from "../Loading";
-import {LOGIN, RESET_MODAL} from '../../redux/types';
+import { RESET_MODAL } from '../../redux/types';
 
 const AppointmentModal = (props) => {
 
@@ -24,6 +24,16 @@ const AppointmentModal = (props) => {
     const [errors, setErrors] = useState({});
     const [patients, setPatients] = useState([]);
     const [loading, setLoading] = useState(false);
+
+    useEffect(()=>{
+      if (props.modal.date) {
+        setData({
+          ...data,
+          date:new Date(props.modal.date),
+          dateTime:props.modal.date.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),
+        });
+      }
+    },[props.modal]);
     
     useEffect(()=>{
       API.get('protectedAPI', `/patients`)
@@ -73,6 +83,7 @@ const AppointmentModal = (props) => {
     }
 
     const handleSuccess = () => {
+      props.dispatch({type:RESET_MODAL});
       setLoading(false);
       props.onOk();
     }

@@ -38,7 +38,7 @@ const DateCard = (props) => {
     }
 
     const newExclusion = () => {
-        props.dispatch({type:SET_MODAL,payload:{from:props.event.from,to:props.event.to,title:""}})
+        props.dispatch({type:SET_MODAL,payload:{from:props.event.from,to:props.event.to,title:""}});
         props.onNewExclusion();
     }
     

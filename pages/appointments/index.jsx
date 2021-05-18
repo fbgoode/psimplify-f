@@ -11,6 +11,7 @@ import { API } from '@aws-amplify/api';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import NewExclusionModal from "../../components/NewExclusionModal";
 import NewAppointmentModal from "../../components/NewAppointmentModal";
+import {SET_MODAL} from '../../redux/types';
 
 const Register = (props) => {
     
@@ -38,6 +39,22 @@ const Register = (props) => {
       duration:6
     });
     setModals({...modals,appointment:{visible:false,new:true}});
+  }
+
+  const openNewAppointmentModal = () => {
+    let initialDate = new Date(selectedDate);
+    initialDate.setHours(16,0,0,0);
+    props.dispatch({type:SET_MODAL,payload:{date:initialDate}});
+    setModals({...modals,appointment:{visible:true,new:false}});
+  }
+
+  const openDayExclusionModal = () => {
+    let fromDate = new Date(selectedDate);
+    fromDate.setHours(0,0,0,0);
+    let toDate = new Date(selectedDate);
+    toDate.setHours(23,59,0,0);
+    props.dispatch({type:SET_MODAL,payload:{from:fromDate,to:toDate,title:''}});
+    setModals({...modals,exclusion:{visible:true,new:false}});
   }
 
   useEffect(()=>{
@@ -129,19 +146,21 @@ const Register = (props) => {
   }
 
   const getDaysExclusions = (date) => {
-    let from = new Date(date).setHours(0,0,0,0);
-    let to = new Date(date).setHours(23,59,59,0);
+    let from = new Date(date);
+    from.setHours(0,0,0,0);
+    let to = new Date(date);
+    to.setHours(23,59,59,0);
     let daysExclusions = [];
     for (let exclusion of props.user.config.appointments?.exclude) {
       const excFrom = new Date(exclusion.from);
       const excTo = new Date(exclusion.to);
-      if (excFrom > from && excTo < to)
+      if (excFrom >= from && excTo <= to)
         daysExclusions.push({title:exclusion.title,from:excFrom,to:excTo,type:"exclusion"});
-      else if (excFrom < from && excTo > to)
+      else if (excFrom <= from && excTo >= to)
         daysExclusions.push({title:exclusion.title,from,to,type:"exclusion"});
-      else if (excFrom < from && excTo > from)
+      else if (excFrom <= from && excTo >= from)
         daysExclusions.push({title:exclusion.title,from,to:excTo,type:"exclusion"});
-      else if (excFrom < to && excTo > to)
+      else if (excFrom <= to && excTo >= to)
         daysExclusions.push({title:exclusion.title,from:excFrom,to,type:"exclusion"});
     }
     return daysExclusions;
@@ -153,7 +172,7 @@ const Register = (props) => {
     let daysAppointments = [];
     for (let appointment of appointments) {
       const date = new Date(appointment.date);
-      if (date > from && date < to) {
+      if (date >= from && date <= to) {
         const to = new Date(appointment.date);
         to.setHours(date.getHours(),date.getMinutes()+appointment.duration+appointment.extra);
         daysAppointments.push({...appointment,from:date,to,type:"appointment"});
@@ -210,10 +229,10 @@ const Register = (props) => {
                 <div>{dateStringProper}</div>
                 <div className={styles.cardActions}>
                   <Tooltip placement="bottom" title="Nueva sesión" mouseEnterDelay="0.5">
-                    <img style={{marginRight:".7rem"}} className="icon" src="/img/cal-add.svg" alt="Nueva sesión" onClick={()=>{setModals({...modals,appointment:{visible:true,new:false}})}}/>
+                    <img style={{marginRight:".7rem"}} className="icon" src="/img/cal-add.svg" alt="Nueva sesión" onClick={openNewAppointmentModal}/>
                   </Tooltip>
                   <Tooltip placement="bottom" title="Marcar no disponible" mouseEnterDelay="0.5">
-                    <img className="icon" src="/img/cal-x.svg" alt="Marcar no disponible" onClick={()=>{setModals({...modals,exclusion:{visible:true,new:false}})}}/>
+                    <img className="icon" src="/img/cal-x.svg" alt="Marcar no disponible" onClick={openDayExclusionModal}/>
                   </Tooltip>
                 </div>
               </div>
