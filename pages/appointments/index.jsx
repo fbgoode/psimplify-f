@@ -99,14 +99,14 @@ const Appointments = (props) => {
   },[]);
 
   useEffect(()=>{
-    if (lastCards.cards.length>0) return;
+    if (lastCards.cards.length>0 || lastCards.last || !(lastCards.lastDate)) return;
     onPanelChange({_d:new Date},"month");
     fetchLastCards();
   },[lastCards]);
 
   const fetchLastCards = () => {
     API.get('protectedAPI', `/appointments/last?untilDate=${lastCards.lastDate}`)
-    .then(res=>{setLastCards({cards:[...lastCards.cards,...res.appointments],last:res.last,lastDate:res.appointments[res.appointments.length-1]?.date})})
+    .then(res=>{setLastCards({cards:[...lastCards.cards,...res.appointments],last:res.last || true,lastDate:res.appointments[res.appointments.length-1]?.date})})
     .catch(handleFail);
   }
 

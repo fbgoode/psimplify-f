@@ -11,6 +11,7 @@ import '../styles/Button.css';
 import '../styles/Icon.css';
 import '../styles/Steps.css';
 import '../styles/Result.css';
+import Head from 'next/head';
 
 //Redux
 import { Provider } from 'react-redux';
@@ -28,6 +29,10 @@ function MyApp({ Component, pageProps }) {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={store.__PERSISTOR}>
+        <Head>
+          <link rel="shortcut icon" href="favicon.png" />
+          <title>Psimplify</title>
+        </Head>
         <Component {...pageProps} />
       </PersistGate>
     </Provider>
