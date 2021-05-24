@@ -20,8 +20,8 @@ export default {
             {
                 name: "protectedAPI",
                 endpoint: process.env.ENV === 'development' ?
-                    "https://r17cnh7yyk.execute-api.eu-central-1.amazonaws.com" :
-                    "http://127.0.0.1:3001",
+                    "http://127.0.0.1:3001" :
+                    "https://r17cnh7yyk.execute-api.eu-central-1.amazonaws.com",
                 custom_header: async () => { 
                 //   return { Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}` }
                   return { Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
