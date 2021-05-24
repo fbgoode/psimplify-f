@@ -19,6 +19,10 @@ const DateCard = (props) => {
             if (props.context==="day") left = new Date(props.event.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             else left = new Date(props.event.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'numeric' });
             content = props.event.patient.name + " " + props.event.patient.lastname;
+            onClick = () => {
+                props.dispatch({type:SET_MODAL,payload:props.event});
+                props.onClick();
+            }
             break;
         case "availability":
             styling += styles.availability;

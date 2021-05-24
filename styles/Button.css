@@ -41,3 +41,41 @@
     margin-right:.5rem;
     margin-left:-.5rem;
 }
+
+/* ADDED */
+
+
+.ant-btn[disabled] {
+  cursor: default;
+}
+.ant-btn[disabled] > * {
+  pointer-events: none;
+}
+.ant-btn[disabled],
+.ant-btn[disabled]:hover,
+.ant-btn[disabled]:focus,
+.ant-btn[disabled]:active {
+  color: rgba(0, 0, 0, 0.25);
+  background: #f5f5f5;
+  border-color: #d9d9d9;
+  text-shadow: none;
+  box-shadow: none;
+}
+.ant-btn[disabled] > a:only-child,
+.ant-btn[disabled]:hover > a:only-child,
+.ant-btn[disabled]:focus > a:only-child,
+.ant-btn[disabled]:active > a:only-child {
+  color: currentColor;
+}
+.ant-btn[disabled] > a:only-child::after,
+.ant-btn[disabled]:hover > a:only-child::after,
+.ant-btn[disabled]:focus > a:only-child::after,
+.ant-btn[disabled]:active > a:only-child::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: transparent;
+  content: '';
+}

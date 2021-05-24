@@ -52,6 +52,7 @@ const DraggableModal = (props) => {
           okText= {props.okText}
           width={props.width}
           cancelText={props.cancelText}
+          okButtonProps={props.disabled ? {disabled:true} : {}}
           modalRender={modal => (
             <Draggable
               disabled={disabled}

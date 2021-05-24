@@ -12,15 +12,16 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import NewExclusionModal from "../../components/NewExclusionModal";
 import NewAppointmentModal from "../../components/NewAppointmentModal";
 import {SET_MODAL} from '../../redux/types';
+import AppointmentModal from "../../components/AppointmentModal";
 
-const Register = (props) => {
+const Appointments = (props) => {
     
   const [loading, setLoading] = useState(false);
   const [appointments, setAppointments] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [dayCards, setDayCards] = useState([]);
   const [lastCards, setLastCards] = useState({cards:[],lastDate:new Date(),last:false});
-  const [modals, setModals] = useState({exclusion:{visible:false,new:false},appointment:{visible:false,new:false}});
+  const [modals, setModals] = useState({exclusion:{visible:false,new:false},newappointment:{visible:false,new:false},appointment:{visible:false,edited:false}});
 
   const dateString = selectedDate.toLocaleDateString('es-ES',{weekday:"long",day:"numeric",month:"long",year:"numeric"});
   const dateStringProper = dateString.charAt(0).toUpperCase() + dateString.slice(1);
@@ -33,19 +34,27 @@ const Register = (props) => {
     setModals({...modals,exclusion:{visible:false,new:true}});
   }
 
-  const onAppointmentOk = () => {
+  const onNewAppointmentOk = () => {
     notification.success({
       message: "Sesión creada con éxito",
       duration:6
     });
-    setModals({...modals,appointment:{visible:false,new:true}});
+    setModals({...modals,newappointment:{visible:false,new:true}});
+  }
+
+  const onAppointmentOk = () => {
+    notification.success({
+      message: "Cambios realizados",
+      duration:6
+    });
+    setModals({...modals,appointment:{visible:false,edited:true}});
   }
 
   const openNewAppointmentModal = () => {
     let initialDate = new Date(selectedDate);
     initialDate.setHours(16,0,0,0);
     props.dispatch({type:SET_MODAL,payload:{date:initialDate}});
-    setModals({...modals,appointment:{visible:true,new:false}});
+    setModals({...modals,newappointment:{visible:true,new:false}});
   }
 
   const openDayExclusionModal = () => {
@@ -63,22 +72,37 @@ const Register = (props) => {
   },[modals.exclusion.new]);
 
   useEffect(()=>{
-    if (modals.appointment.new)
+    if (modals.newappointment.new)
       onPanelChange({_d:selectedDate},"month");
-  },[modals.appointment.new]);
+  },[modals.newappointment.new]);
+
+  useEffect(()=>{
+    if (modals.appointment.edited)
+      setLastCards({cards:[],lastDate:new Date(),last:false});
+  },[modals.appointment.edited]);
 
   const onExclusionCancel = () => {
     setModals({...modals,exclusion:{visible:false,new:false}});
   }
 
+  const onNewAppointmentCancel = () => {
+    setModals({...modals,newappointment:{visible:false,new:false}});
+  }
+
   const onAppointmentCancel = () => {
-    setModals({...modals,appointment:{visible:false,new:false}});
+    setModals({...modals,appointment:{visible:false,edited:false}});
   }
 
   useEffect(()=>{
     onPanelChange({_d:new Date},"month");
     fetchLastCards();
   },[]);
+
+  useEffect(()=>{
+    if (lastCards.cards.length>0) return;
+    onPanelChange({_d:new Date},"month");
+    fetchLastCards();
+  },[lastCards]);
 
   const fetchLastCards = () => {
     API.get('protectedAPI', `/appointments/last?untilDate=${lastCards.lastDate}`)
@@ -221,7 +245,8 @@ const Register = (props) => {
       <Header title="Calendario"></Header>
       <Loading visible={loading}></Loading>
       <NewExclusionModal onOk={onExclusionOk} onCancel={onExclusionCancel} visible={modals.exclusion.visible}/>
-      <NewAppointmentModal onOk={onAppointmentOk} onCancel={onAppointmentCancel} visible={modals.appointment.visible}/>
+      <NewAppointmentModal onOk={onNewAppointmentOk} onCancel={onNewAppointmentCancel} visible={modals.newappointment.visible}/>
+      <AppointmentModal onOk={onAppointmentOk} onCancel={onAppointmentCancel} visible={modals.appointment.visible}/>
       <div className="pageContainer">
         <div className="content content-3 reverse">
             <div className="card card-1" style={{minHeight:"39rem"}}>
@@ -239,6 +264,7 @@ const Register = (props) => {
               <div className="card-content">
                 {dayCards.map(card=><DayCard event={card} type={card.type} key={Math.random()*999999} context="day"
                   onNewExclusion={card.type==="availability"?(()=>{setModals({...modals,exclusion:{visible:true,new:false}})}):(()=>{})}
+                  onClick={card.type==="appointment"?(()=>{setModals({...modals,appointment:{visible:true,edited:false}})}):(()=>{})}
                   />)}
               </div>
             </div>
@@ -255,8 +281,9 @@ const Register = (props) => {
                 hasMore={!lastCards.last}
                 loader={<div className={styles.loadingContainer}><Loading visible={true}/></div>}>
                   {lastCards.cards.map(card=>
-                  <DayCard event={card} type="appointment" key={Math.random()*999999} context="last"/>
-                  )}
+                  <DayCard event={card} type="appointment" key={Math.random()*999999} context="last"
+                  onClick={()=>{setModals({...modals,appointment:{visible:true,edited:false}})}}
+                  />)}
                 </InfiniteScroll>
               </div>
             </div>
@@ -267,4 +294,4 @@ const Register = (props) => {
   );
 };
 
-export default connect((state)=>({user: state.user}))(Register);
+export default connect((state)=>({user: state.user}))(Appointments);

@@ -1,0 +1,82 @@
+.dateTimePicker {
+    display: flex;
+    flex-direction: column;
+    width:100%;
+    align-items: center;
+    max-width: 50em;
+    margin:auto;
+    margin-top:1em;
+    text-align:center;
+}
+
+.dateContainer {
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.dateContainer .icon{
+    width:1.6em;
+    height:1.6em;
+    margin-top: .5em;
+    cursor: pointer;
+    color: #687CE5;
+}
+
+.dateContainer .icon svg {
+    width:1.6em;
+    height:1.6em;
+}
+
+.dateContainer .icon:hover{
+    color: #5869c0;
+}
+
+.dateContainer .icon.disabled {
+    opacity:0.5;
+    cursor:auto;
+    color: #8f8f8f;
+}
+
+.dateContainer .date {
+    width: 4.9em;
+    pointer-events: none;
+    user-select: none;
+}
+
+.dateContainer .datemonth {
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.dateContainer .dateweek {
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.separator {
+    height:.1em;
+    background-color: #E5E5E5;
+    width:80%;
+    margin: 1em 0;
+}
+
+.timeContainer {
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.timeContainer .times {
+    width:4.9em;
+}
+
+.timeContainer .icon{
+    width:1.6em;
+    height:1.6em;
+    margin-top: .5em;
+}

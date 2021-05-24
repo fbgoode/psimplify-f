@@ -251,3 +251,11 @@
 .ant-modal-wrap-rtl.ant-modal-centered .ant-modal {
   text-align: right;
 }
+
+/* AGREGADO */
+.ant-modal-content {
+  border-radius: .6rem;
+}
+.ant-modal-header {
+  border-radius: .6rem .6rem 0 0;
+}

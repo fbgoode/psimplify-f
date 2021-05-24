@@ -684,3 +684,7 @@
 .time-dropdown .ant-select-item-group {
   display:none;
 }
+
+.ant-select .ant-select-selector {
+  border-radius: .5rem!important;
+}

@@ -14,6 +14,7 @@ const FlexibleModal = (props) => {
         okText= {props.okText || "Aceptar"}
         cancelText={props.cancelText || "Cancelar"}
         width={props.width}
+        disabled={props.disabled}
       >
         {props.children}
       </DraggableModal>
@@ -31,6 +32,7 @@ const FlexibleModal = (props) => {
         closable={false}
         mask={false}
         width={props.width}
+        okButtonProps={props.disabled ? {disabled:true} : {}}
       >
         {props.children}
       </Modal>

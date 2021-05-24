@@ -9,6 +9,8 @@ import '../styles/Modal.css';
 import '../styles/Select.css';
 import '../styles/Button.css';
 import '../styles/Icon.css';
+import '../styles/Steps.css';
+import '../styles/Result.css';
 
 //Redux
 import { Provider } from 'react-redux';

@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { Form, DatePicker, Input, notification } from 'antd';
+import { Form, DatePicker, Input, notification, Select } from 'antd';
 import moment from 'moment';
 import validate from "../../tools/validate";
 import Modal from "../Modal";
 import TimeInput from "../TimeInput";
-import PatientInput from "../PatientInput";
 import { API } from '@aws-amplify/api';
 import Loading from "../Loading";
 import { RESET_MODAL } from '../../redux/types';
@@ -18,12 +17,13 @@ const AppointmentModal = (props) => {
     const [data, setData] = useState({
       date: initialDate,
       note: "",
-      patient: "",
+      status: "ok",
       dateTime: initialDate.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),
     });
     const [errors, setErrors] = useState({});
-    const [patients, setPatients] = useState([]);
+    const [disabled, setDisabled] = useState(true);
     const [loading, setLoading] = useState(false);
+    const [patient, setPatient] = useState("?");
 
     useEffect(()=>{
       if (props.modal.date) {
@@ -32,19 +32,25 @@ const AppointmentModal = (props) => {
           ...data,
           date:date,
           dateTime:date.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),
+          note:props.modal.note,
+          status:props.modal.status
         });
+        setPatient(`${props.modal.patient?.name} ${props.modal.patient?.lastname}`);
       }
     },[props.modal]);
-    
-    useEffect(()=>{
-      API.get('protectedAPI', `/patients`)
-      .then(res=>{setPatients(res.patients)})
-      .catch(handleFail);
-    },[])
 
     const changeDateTime = (timestring) => {
       updateData('dateTime',timestring);
     }
+
+    useEffect(()=>{
+      if (Object.keys(errors).length === 0 &&
+        data.date.getTime() !== (new Date(props.modal.date)).getTime()
+        || data.note !== props.modal.note
+        || data.status !== props.modal.status) {
+          if(disabled) setDisabled(false);
+      } else if(!disabled) setDisabled(true);
+    },[data]);
 
     useEffect(()=>{
       const err = validate({dateTime:data.dateTime},"appointment");
@@ -67,7 +73,12 @@ const AppointmentModal = (props) => {
       if (Object.keys(errors).length > 0) setErrors(validate({ ...data, [key]: value }, "appointment"));
     }
 
+    // useEffect(()=>{
+    //   console.log(errors);
+    // },[errors])
+
     const onOk = () => {
+      setDisabled(true);
       const errs = validate(data, "appointment");
       setErrors(errs);
       if (Object.keys(errs).length > 0) return;
@@ -75,10 +86,10 @@ const AppointmentModal = (props) => {
       setLoading(true);
       const body = {
         date:data.date,
-        patient:data.patient,
+        status:data.status,
         note:data.note
       }
-      API.post('protectedAPI', `/appointments`, {body})
+      API.put('protectedAPI', `/appointments/${props.modal._id}`, {body})
       .then(handleSuccess)
       .catch(handleFail);
     }
@@ -101,16 +112,25 @@ const AppointmentModal = (props) => {
       <>
       <Loading visible={loading}/>
       <Modal
-        title="Nueva sesión"
+        title={`Sesión con ${patient}`}
         visible={props.visible}
         onOk={onOk}
-        onCancel={props.onCancel}
+        onCancel={()=>{
+          setDisabled(true);
+          props.onCancel();
+        }}
+        okText="Aceptar cambios"
         width={"30rem"}
+        disabled={disabled}
       >
         <Form layout="vertical" style={{marginTop:"-.6rem"}}>
           <div className="twoCols collapse">
-            <Form.Item label="ID de paciente" validateStatus={errors.patient?.status} help={errors.patient?.help}>
-              <PatientInput options={patients} name="patient" onChange={id=>{updateData('patient',id)}}/>
+            <Form.Item label="Estado">
+              <Select value={data.status} name="status" onChange={id=>{updateData('status',id)}}>
+                <Option value="ok">{data.date > new Date() ? "Programada" : "Realizada"}</Option>
+                <Option value="nok">{"Ausencia"}</Option>
+                <Option value="cancelled">{"Cancelada"}</Option>
+              </Select>
             </Form.Item>
             <Form.Item label="Tipo de sesión">
               <Input name="title" value="Sesión normal" disabled/>
@@ -125,7 +145,7 @@ const AppointmentModal = (props) => {
             </Form.Item>
           </div>
           <Form.Item label="Nota (opcional)">
-            <Input.TextArea autoSize={{ minRows: 2, maxRows: 6 }} name="note" onChange={(e)=>{updateData('note',e.target.value)}} />
+            <Input.TextArea value={data.note} autoSize={{ minRows: 2, maxRows: 6 }} name="note" onChange={(e)=>{updateData('note',e.target.value)}} />
           </Form.Item>
         </Form>
       </Modal>

@@ -65,7 +65,7 @@
 .ant-input-affix-wrapper-disabled {
   color: rgba(0, 0, 0, 0.25);
   background-color: #f5f5f5;
-  cursor: not-allowed;
+  cursor: default;
   opacity: 1;
 }
 .ant-input-affix-wrapper-disabled:hover {
@@ -75,7 +75,7 @@
 .ant-input-affix-wrapper[disabled] {
   color: rgba(0, 0, 0, 0.25);
   background-color: #f5f5f5;
-  cursor: not-allowed;
+  cursor: default;
   opacity: 1;
 }
 .ant-input-affix-wrapper[disabled]:hover {
@@ -267,7 +267,7 @@ textarea.ant-input-affix-wrapper {
 .ant-input-disabled {
   color: rgba(0, 0, 0, 0.25);
   background-color: #f5f5f5;
-  cursor: not-allowed;
+  cursor: default;
   opacity: 1;
 }
 .ant-input-disabled:hover {
@@ -277,7 +277,7 @@ textarea.ant-input-affix-wrapper {
 .ant-input[disabled] {
   color: rgba(0, 0, 0, 0.25);
   background-color: #f5f5f5;
-  cursor: not-allowed;
+  cursor: default;
   opacity: 1;
 }
 .ant-input[disabled]:hover {
